@@ -14,6 +14,7 @@ const config = ({
   /* Run tests in files in parallel */
   use: {
     browserName: 'chromium',
+    headless: true,
 
   },
 
