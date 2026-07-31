@@ -10,6 +10,7 @@ test.only('First Playwright Test with browser context', async ({browser}) =>
     const userName = page.locator("#username");
     const password = page.locator("#password");
     const signInBtn = page.locator("#signInBtn");
+    const cardTitles = page.locator(".card-body a");
 
     await page.goto(process.env.BASE_URL);
 
@@ -20,8 +21,10 @@ test.only('First Playwright Test with browser context', async ({browser}) =>
     console.log(await signInBtn.click());
     // console.log(await page.locator("[style*='block']").textContent());
     // await expect(page.locator("[style*='block']")).toContainText('Incorrect username/password.');
-    console.log(await page.locator(".card-body a").first().textContent());
-    console.log(await page.locator(".card-body a").nth(1).textContent());
+    console.log(await cardTitles.first().textContent());
+    console.log(await cardTitles.nth(1).textContent());
+    const allTitles = await cardTitles.allTextContents();
+    console.log(allTitles);
 
 
 });
