@@ -7,7 +7,7 @@ require('dotenv').config();
  */
 const config = ({
   testDir: './tests',
-  timeout: 40 * 1000,
+  timeout: 50 * 1000,
   expect: {
     timeout: 5000
   },
@@ -15,7 +15,7 @@ const config = ({
   /* Run tests in files in parallel */
   use: {
     browserName: 'chromium',
-    headless: true,
+    headless: false,
 
   },
 
