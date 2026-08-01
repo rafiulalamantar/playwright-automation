@@ -28,9 +28,17 @@ test('First Playwright Test with browser context', async ({browser}) =>
 
 
 });
-test('First Playwright Test with page', async ({page}) =>
+test.only('UI Controls', async ({page}) =>
 {
     await page.goto(process.env.BASE_URL);
-    expect(await page.title()).toBe('LoginPage Practise | Rahul Shetty Academy');
+    const userName = page.locator("#username");
+    const password = page.locator("#password");
+    await userName.fill(process.env.TEST_USERNAME);
+    await password.fill(process.env.TEST_PASSWORD);
+    const dropdown = page.locator("select.form-control");
+    await dropdown.selectOption("consult");
+    await page.locator(".radiotextsty").last().click();
+    await page.locator("#okayBtn").click();
+    await page.pause();
 
 });
