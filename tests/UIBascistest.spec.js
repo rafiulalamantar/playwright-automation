@@ -67,7 +67,7 @@ test.only('Child Windows', async ({browser}) =>{
    // console.log(domainName);
     await page.locator("#username").fill(domainName);
     await page.pause();
-    console.log(await page.locator("#username").textContent());
+    console.log(await page.locator("#username").inputValue());
 
 
 });
