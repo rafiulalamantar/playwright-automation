@@ -33,6 +33,8 @@ test.only('UI Controls', async ({page}) =>
     await page.goto(process.env.BASE_URL);
     const userName = page.locator("#username");
     const password = page.locator("#password");
+    const documentsRequest = page.locator("[href*='documents-request']");
+
     await userName.fill(process.env.TEST_USERNAME);
     await password.fill(process.env.TEST_PASSWORD);
     const dropdown = page.locator("select.form-control");
@@ -44,5 +46,6 @@ test.only('UI Controls', async ({page}) =>
     await expect (page.locator("#terms")).toBeChecked();
     await page.locator("#terms").uncheck();
     expect (await page.locator("#terms").isChecked()).toBeFalsy();
+    await expect (documentsRequest).toHaveAttribute('class', 'blinkingText');
 
 });
