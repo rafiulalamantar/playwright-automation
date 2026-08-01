@@ -28,7 +28,7 @@ test('First Playwright Test with browser context', async ({browser}) =>
 
 
 });
-test.only('UI Controls', async ({page}) =>
+test('UI Controls', async ({page}) =>
 {
     await page.goto(process.env.BASE_URL);
     const userName = page.locator("#username");
@@ -47,5 +47,27 @@ test.only('UI Controls', async ({page}) =>
     await page.locator("#terms").uncheck();
     expect (await page.locator("#terms").isChecked()).toBeFalsy();
     await expect (documentsRequest).toHaveAttribute('class', 'blinkingText');
+
+});
+
+test.only('Child Windows', async ({browser}) =>{
+    const context = await browser.newContext();
+    const page = await context.newPage();
+    const userName = page.locator("#username");
+    await page.goto(process.env.BASE_URL);
+    const documentsRequest = page.locator("[href*='documents-request']");
+
+    const [childPage] = await Promise.all([
+        context.waitForEvent('page'),
+        documentsRequest.click()
+    ]);
+
+    const text = await childPage.locator(".red").textContent();
+    const domainName = text.split("@")[1].split(" ")[0];
+   // console.log(domainName);
+    await page.locator("#username").fill(domainName);
+    await page.pause();
+    console.log(await page.locator("#username").textContent());
+
 
 });
