@@ -4,7 +4,7 @@ const {expect} = require('@playwright/test');
 
 test('Browser Context Test', async ({page}) =>
 {
-    const productsNames = "Zara Coat 4";
+    const productsNames = "ZARA COAT 3";
     const products = page.locator(".card-body");
 
     await page.goto(process.env.BASE_URL_CLIENT_APP);
@@ -29,5 +29,10 @@ test('Browser Context Test', async ({page}) =>
         }
 
     }
+    await page.locator("[routerlink*='cart']").click();
+    await page.locator("div li").first().waitFor();
+    const bool = await page.locator("h3:has-text('ZARA COAT 3')").isVisible();
+    expect(bool).toBeTruthy();
+
 
 });
