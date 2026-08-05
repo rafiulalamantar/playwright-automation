@@ -89,3 +89,26 @@ test.only('Special Elements', async ({page}) =>{
  
     //locator(css)
 });
+
+test('Special Elements Wait ', async ({page}) =>{
+
+    const slowExp = expect.configure({timeout: 9000});
+
+    await page.goto(process.env.BASE_URL_V2);
+    await page.getByLabel("Check me out if you Love IceCreams!").click();
+    await page.getByLabel("Employed").check();
+    await page.getByLabel("Gender").selectOption("Female");
+    await page.getByPlaceholder("Password").fill("abc123");
+    await page.getByRole("button", {name: 'Submit'}).click();
+
+    //5s
+    await page.getByText("Success! The Form has been submitted successfully!.").isVisible();
+
+
+    await slowExp(page.getByText("Success! The Form has been submitted successfully!.")).toBeVisible({timeout: 10_000});
+    await page.getByRole("link",{name : "Shop"}).click();
+    await slowExp(page.locator("my-4").first()).toHaveText("Shop");
+    await page.locator("app-card").filter({hasText: 'Nokia Edge'}).getByRole("button").click();
+ 
+    //locator(css)
+});
