@@ -2,7 +2,7 @@ const {test} = require('@playwright/test');
 const {expect} = require('@playwright/test');
 
 
-test.only('Client App test with submit order and extract order ID', async ({page}) =>
+test('Client App test with submit order and extract order ID', async ({page}) =>
 {
     const productsNames = "ZARA COAT 3";
     const email = "fijope2288@amupx.com";
