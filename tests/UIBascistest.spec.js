@@ -92,7 +92,9 @@ test.only('Special Elements', async ({page}) =>{
 
 test('Special Elements Wait ', async ({page}) =>{
 
+    test.timeout(60000);
     const slowExp = expect.configure({timeout: 9000});
+    page.setDefaultTimeout(9000);
 
     await page.goto(process.env.BASE_URL_V2);
     await page.getByLabel("Check me out if you Love IceCreams!").click();
