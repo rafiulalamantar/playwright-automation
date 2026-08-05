@@ -72,7 +72,7 @@ test('Child Windows', async ({browser}) =>{
 
 });
 
-test.only('Special Elements', async ({page}) =>{
+test('Special Elements', async ({page}) =>{
 
     await page.goto(process.env.BASE_URL_V2);
     await page.getByLabel("Check me out if you Love IceCreams!").click();
