@@ -50,7 +50,7 @@ test('UI Controls', async ({page}) =>
 
 });
 
-test.only('Child Windows', async ({browser}) =>{
+test('Child Windows', async ({browser}) =>{
     const context = await browser.newContext();
     const page = await context.newPage();
     const userName = page.locator("#username");
