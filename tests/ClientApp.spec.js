@@ -5,6 +5,7 @@ const {expect} = require('@playwright/test');
 test.only('Client App test with submit order and extract order ID', async ({page}) =>
 {
     const productsNames = "ZARA COAT 3";
+    const email = "fijope2288@amupx.com";
     const products = page.locator(".card-body");
 
     await page.goto(process.env.BASE_URL_CLIENT_APP);
@@ -30,44 +31,44 @@ test.only('Client App test with submit order and extract order ID', async ({page
 
     }
     await page.locator("[routerlink*='cart']").click();
-    await page.locator("div li").first().waitFor();
-    const bool = await page.locator("h3:has-text('ZARA COAT 3')").isVisible();
-    expect(bool).toBeTruthy();
-
-    await page.locator("text=Checkout").click();
-    await page.locator("[placeholder*='Country']").pressSequentially("ind");
-    const optinos = page.locator(".ta-results");
-    await optinos.waitFor();
-    const optionCount = await optinos.locator("button").count();
-    for (let i = 0; i < optionCount; ++i){
-        if (await optinos.locator("button").nth(i).textContent() === " India") {
-            await optinos.locator("button").nth(i).click();
-            break;
-        }
-
-    }
-    expect(await page.locator(".user__name [type='text']").first()).toHaveText(process.env.TEST_EMAIL);
-    await page.locator(".action__submit").click();
-    await expect(page.locator(".hero-primary")).toHaveText(" Thankyou for the order. ");
-    // const orderId = await page.locator(".em-spacer-1 .ng-star-inserted").textContent();
-
-    let orderId = await page.locator(".em-spacer-1 .ng-star-inserted").textContent();
-    orderId = orderId.replace(/\|/g, "").trim();
-    console.log(orderId);
-    await page.locator("button[routerlink*='myorders']").click();
-    await page.locator("tbody").waitFor();
-    const rows = await page.locator("tbody tr");
-    for (let i = 0; i < await rows.count(); ++i){
-        const rowOrderId = (await rows.nth(i).locator("th").textContent()).trim();
-        if (orderId.includes(rowOrderId)) {
-            await rows.nth(i).locator("button").first().click();
-            break;
-        }
-    }
-    // const orderDetails = await expect(page.locator(".col-text")).toHaveText(orderId);
-    // await expect(orderDetails.first()).toHaveText(orderId);
-    
-    const orderDetails = page.locator(".col-text", { hasText: orderId });
-    await expect(orderDetails.first()).toHaveText(orderId);
-
+   //await page.pause();
+ 
+   await page.locator("div li").first().waitFor();
+   const bool = await page.locator("h3:has-text('ZARA COAT 3')").isVisible();
+   expect(bool).toBeTruthy();
+   await page.locator("text=Checkout").click();
+ 
+   await page.locator("[placeholder*='Country']").pressSequentially("ind", { delay: 150 });
+   const dropdown = page.locator(".ta-results");
+   await dropdown.waitFor();
+   const optionsCount = await dropdown.locator("button").count();
+   for (let i = 0; i < optionsCount; ++i) {
+      const text = await dropdown.locator("button").nth(i).textContent();
+      if (text === " India") {
+         await dropdown.locator("button").nth(i).click();
+         break;
+      }
+   }
+ 
+   expect(page.locator(".user__name [type='text']").first()).toHaveText(email);
+   await page.locator(".action__submit").click();
+   await expect(page.locator(".hero-primary")).toHaveText(" Thankyou for the order. ");
+   const orderId = await page.locator(".em-spacer-1 .ng-star-inserted").textContent();
+   console.log(orderId);
+ 
+   await page.locator("button[routerlink*='myorders']").click();
+   await page.locator("tbody").waitFor();
+   const rows = await page.locator("tbody tr");
+ 
+ 
+   for (let i = 0; i < await rows.count(); ++i) {
+      const rowOrderId = await rows.nth(i).locator("th").textContent();
+      if (orderId.includes(rowOrderId)) {
+         await rows.nth(i).locator("button").first().click();
+         break;
+      }
+   }
+   const orderIdDetails = await page.locator(".col-text").textContent();
+   expect(orderId.includes(orderIdDetails)).toBeTruthy();
+ 
 });
