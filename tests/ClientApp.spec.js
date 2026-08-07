@@ -1,6 +1,6 @@
 const {test} = require('@playwright/test');
 const {expect} = require('@playwright/test');
-
+const {LoginPage} = require('../pageObjects/LoginPage');
 
 test('Client App test with submit order and extract order ID', async ({page}) =>
 {
@@ -8,10 +8,9 @@ test('Client App test with submit order and extract order ID', async ({page}) =>
     const email = "fijope2288@amupx.com";
     const products = page.locator(".card-body");
 
-    await page.goto(process.env.BASE_URL_CLIENT_APP);
-    await page.locator("#userEmail").fill(process.env.TEST_EMAIL);
-    await page.locator("#userPassword").fill(process.env.TEST_PASSWORD_CLIENT_APP);
-    await page.locator("[value='Login']").click();
+    const loginPage = new LoginPage(page);
+    await loginPage.goToLoginPage();
+    loginPage.validateLoginPage(process.env.TEST_EMAIL, process.env.TEST_PASSWORD_CLIENT_APP);
     // await page.waitForLoadState('networkidle');
     await page.locator(".card-body b").first().waitFor();// when locator returns single element
     await page.locator(".card-body b").allTextContents();
