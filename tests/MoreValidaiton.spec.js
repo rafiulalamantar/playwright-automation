@@ -14,5 +14,4 @@ test('Popup Validations', async ({ page }) => {
     await page.locator("#confirmbtn").click();
     await page.locator("#mousehover").hover();
 
-
 });
