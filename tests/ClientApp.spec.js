@@ -1,5 +1,6 @@
 const {test} = require('@playwright/test');
 const {expect} = require('@playwright/test');
+const {POManager} = require('../pageObjects/POManager');
 const {LoginPage} = require('../pageObjects/LoginPage');
 const { DashboardPage } = require('../pageObjects/DashboardPage');
 
@@ -74,15 +75,16 @@ test('Client App test with submit order and extract order ID', async ({page}) =>
 });
 test.only('Client App test with submit order and extract order ID using Page Object', async ({page}) =>
 {
+   const poManager = new POManager(page);
     const productsNames = "ZARA COAT 3";
     const email = "fijope2288@amupx.com";
    //  const products = page.locator(".card-body");
 
-    const loginPage = new LoginPage(page);
+    const loginPage = poManager.getLoginPage();
     await loginPage.goToLoginPage();
     await loginPage.validateLoginPage(process.env.TEST_EMAIL, process.env.TEST_PASSWORD);
     // await page.waitForLoadState('networkidle');
-    const dashboard = new DashboardPage(page);
+    const dashboard = poManager.getDashboardPage();
     await dashboard.searchProductAndAddToCart(productsNames);
     await dashboard.navigateToCart();
 
