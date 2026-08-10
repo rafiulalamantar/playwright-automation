@@ -1,8 +1,8 @@
-const { test } = require('@playwright/test');
-const { expect } = require('@playwright/test');
+const { test, expect } = require('@playwright/test');
 const { POManager } = require('../pageObjects/POManager');
 const { LoginPage } = require('../pageObjects/LoginPage');
 const { DashboardPage } = require('../pageObjects/DashboardPage');
+const { customTest } = require('../utils/test-base');
 const dataset = JSON.parse(JSON.stringify(require("../utils/placeorderTestData.json")));
 
 test('Client App test with submit order and extract order ID', async ({ page }) => {
@@ -75,7 +75,7 @@ test('Client App test with submit order and extract order ID', async ({ page }) 
 });
 
 for (const data of dataset) {
-   test.only(`Client App test with submit order and extract order ID using Page Object ${data.productsNames}`, async ({ page }) => {
+   test(`Client App test with submit order and extract order ID using Page Object ${data.productsNames}`, async ({ page }) => {
       const poManager = new POManager(page);
 
       const loginPage = poManager.getLoginPage();
@@ -100,3 +100,13 @@ for (const data of dataset) {
 
    });
 }
+customTest.only('Client App Login with Order ID Custom Fixtures', async ({ page,testDataForOrder }) => {
+   const poManager = new POManager(page);
+
+   const loginPage = poManager.getLoginPage();
+   await loginPage.goToLoginPage();
+   await loginPage.validateLoginPage(testDataForOrder.TEST_EMAIL, testDataForOrder.TEST_PASSWORD);
+   const dashboard = poManager.getDashboardPage();
+   await dashboard.searchProductAndAddToCart(testDataForOrder.productsNames);
+   await dashboard.navigateToCart();
+});

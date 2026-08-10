@@ -1,0 +1,12 @@
+const base = require('@playwright/test');
+
+exports.customTest = base.test.extend({
+    testDataForOrder: {
+        TEST_USERNAME: 'rahulshettyacademy',
+        TEST_PASSWORD: 'Learning@830$3mK2',
+        TEST_EMAIL: 'fijope2288@amupx.com',
+        TEST_PASSWORD_CLIENT_APP: 'Learning@830$3mK2BA',
+        productsNames: 'ZARA COAT 3'
+    }
+});
+
