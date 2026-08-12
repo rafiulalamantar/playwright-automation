@@ -5,11 +5,11 @@ const {expect} = require('@playwright/test');
 test('Client App test with submit order and extract order ID', async ({page}) =>
 {
     const productsNames = "ZARA COAT 3";
-    const email = "fijope2288@amupx.com";
+    const email = process.env.TEST_EMAIL || "anshika@gmail.com";
     const products = page.locator(".card-body");
 
     await page.goto(process.env.BASE_URL_CLIENT_APP);
-    await page.locator("#userEmail").fill(process.env.TEST_EMAIL);
+    await page.locator("#userEmail").fill(process.env.TEST_EMAIL || email);
     await page.locator("#userPassword").fill(process.env.TEST_PASSWORD_CLIENT_APP);
     await page.locator("[value='Login']").click();
     // await page.waitForLoadState('networkidle');

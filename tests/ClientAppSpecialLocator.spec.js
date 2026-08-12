@@ -10,7 +10,7 @@ test('@Website Client App login', async ({ page }) => {
 
    await page.goto("https://rahulshettyacademy.com/client");
    await page.getByPlaceholder("email@example.com").fill(process.env.TEST_EMAIL);
-   await page.getByPlaceholder("enter your passsword").fill(process.env.TEST_PASSWORD);
+   await page.getByPlaceholder("enter your passsword").fill(process.env.TEST_PASSWORD_CLIENT_APP);
    await page.getByRole('button',{name:"Login"}).click();
    await page.waitForLoadState('networkidle');
    await page.locator(".card-body b").first().waitFor();
