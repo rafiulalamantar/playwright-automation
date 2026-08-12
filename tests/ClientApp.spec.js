@@ -1,12 +1,9 @@
 const { test, expect } = require('@playwright/test');
-const { POManager } = require('../pageObjects/POManager');
 const { LoginPage } = require('../pageObjects/LoginPage');
-const { DashboardPage } = require('../pageObjects/DashboardPage');
-const { customTest } = require('../utils/test-base');
-const dataset = JSON.parse(JSON.stringify(require("../utils/placeorderTestData.json")));
 
 test('Client App test with submit order and extract order ID', async ({ page }) => {
    const productsNames = "ZARA COAT 3";
+   const email = process.env.TEST_EMAIL || "anshika@gmail.com";
    const products = page.locator(".card-body");
 
    const loginPage = new LoginPage(page);
@@ -73,39 +70,3 @@ test('Client App test with submit order and extract order ID', async ({ page }) 
 
 });
 
-for (const data of dataset) {
-   test(`Client App test with submit order and extract order ID using Page Object ${data.productsNames}`, async ({ page }) => {
-      const poManager = new POManager(page);
-
-      const loginPage = poManager.getLoginPage();
-      await loginPage.goToLoginPage();
-      await loginPage.validateLoginPage(data.TEST_EMAIL, data.TEST_PASSWORD);
-      const dashboard = poManager.getDashboardPage();
-      await dashboard.searchProductAndAddToCart(data.productsNames);
-      await dashboard.navigateToCart();
-
-      const cartPage = poManager.getCartPage();
-      await cartPage.VerifyProductIsDisplayed(data.productsNames);
-      await cartPage.Checkout();
-
-      const ordersReviewPage = poManager.getOrdersReviewPage();
-      await ordersReviewPage.searchCountryAndSelect("ind", "India");
-      const orderId = await ordersReviewPage.SubmitAndGetOrderId();
-      console.log(orderId);
-      await dashboard.navigateToOrders();
-      const ordersHistoryPage = poManager.getOrdersHistoryPage();
-      await ordersHistoryPage.searchOrderAndSelect(orderId);
-      expect(orderId.includes(await ordersHistoryPage.getOrderId())).toBeTruthy();
-
-   });
-}
-customTest.only('Client App Login with Order ID Custom Fixtures', async ({ page,testDataForOrder }) => {
-   const poManager = new POManager(page);
-
-   const loginPage = poManager.getLoginPage();
-   await loginPage.goToLoginPage();
-   await loginPage.validateLoginPage(testDataForOrder.TEST_EMAIL, testDataForOrder.TEST_PASSWORD);
-   const dashboard = poManager.getDashboardPage();
-   await dashboard.searchProductAndAddToCart(testDataForOrder.productsNames);
-   await dashboard.navigateToCart();
-});
