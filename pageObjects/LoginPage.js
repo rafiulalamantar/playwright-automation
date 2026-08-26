@@ -13,8 +13,8 @@ class LoginPage {
 
     async validateLoginPage(username, password) {
 
-        await this.emailField.fill(process.env.TEST_EMAIL);
-        await this.passwordField.fill(process.env.TEST_PASSWORD);
+        await this.emailField.fill(username);
+        await this.passwordField.fill(password);
         await this.signInButton.click();
         await this.page.waitForLoadState('networkidle');
     }

@@ -1,15 +1,11 @@
 const { test, expect } = require('@playwright/test');
-const { POManager } = require('../pageObjects/POManager');
 const { LoginPage } = require('../pageObjects/LoginPage');
-const { DashboardPage } = require('../pageObjects/DashboardPage');
-const { customTest } = require('../utils/test-base');
-const dataset = JSON.parse(JSON.stringify(require("../utils/placeorderTestData.json")));
 
 // test.describe.configure({mode:'parallel'})
 // test.describe.configure({mode:'serial'})
 test('Client App test', async ({ page }) => {
    const productsNames = "ZARA COAT 3";
-   const email = "fijope2288@amupx.com";
+   const email = process.env.TEST_EMAIL || "anshika@gmail.com";
    const products = page.locator(".card-body");
 
    const loginPage = new LoginPage(page);

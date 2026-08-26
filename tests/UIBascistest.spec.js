@@ -15,12 +15,12 @@ test('First Playwright Test with browser context', async ({browser}) =>
     await page.goto(process.env.BASE_URL);
 
     console.log(await page.title());
-    expect(page).toHaveTitle('LoginPage Practise | Rahul Shetty Academy');
+    await expect(page).toHaveTitle('LoginPage Practise | Rahul Shetty Academy');
     await userName.fill(process.env.TEST_USERNAME);
     await password.fill(process.env.TEST_PASSWORD);
-    console.log(await signInBtn.click());
-    // console.log(await page.locator("[style*='block']").textContent());
-    // await expect(page.locator("[style*='block']")).toContainText('Incorrect username/password.');
+    await signInBtn.click();
+    await page.waitForLoadState('networkidle');
+    await expect(cardTitles.first()).toBeVisible();
     console.log(await cardTitles.first().textContent());
     console.log(await cardTitles.nth(1).textContent());
     const allTitles = await cardTitles.allTextContents();
@@ -66,7 +66,6 @@ test('Child Windows', async ({browser}) =>{
     const domainName = text.split("@")[1].split(" ")[0];
    // console.log(domainName);
     await page.locator("#username").fill(domainName);
-    await page.pause();
     console.log(await page.locator("#username").inputValue());
 
 
@@ -80,10 +79,8 @@ test('Special Elements', async ({page}) =>{
     await page.getByLabel("Gender").selectOption("Female");
     await page.getByPlaceholder("Password").fill("abc123");
     await page.getByRole("button", {name: 'Submit'}).click();
-    await page.getByText("Success! The Form has been submitted successfully!.").isVisible();
-
-
-    expect(page.getByText("Success! The Form has been submitted successfully!.")).toBeVisible({timeout: 10_000});
+    await expect(page.getByText("Success! The Form has been submitted successfully!."))
+      .toBeVisible({timeout: 10_000});
     await page.getByRole("link",{name : "Shop"}).click();
     await page.locator("app-card").filter({hasText: 'Nokia Edge'}).getByRole("button").click();
  
@@ -92,7 +89,7 @@ test('Special Elements', async ({page}) =>{
 
 test('Special Elements Wait ', async ({page}) =>{
 
-    test.timeout(60000);
+    test.setTimeout(60000);
     const slowExp = expect.configure({timeout: 9000});
     page.setDefaultTimeout(9000);
 
@@ -104,12 +101,10 @@ test('Special Elements Wait ', async ({page}) =>{
     await page.getByRole("button", {name: 'Submit'}).click();
 
     //5s
-    await page.getByText("Success! The Form has been submitted successfully!.").isVisible();
-
-
-    await slowExp(page.getByText("Success! The Form has been submitted successfully!.")).toBeVisible({timeout: 10_000});
+    await expect(page.getByText("Success! The Form has been submitted successfully!."))
+      .toBeVisible({timeout: 10_000});
     await page.getByRole("link",{name : "Shop"}).click();
-    await slowExp(page.locator("my-4").first()).toHaveText("Shop");
+    await slowExp(page.locator(".my-4").first()).toContainText("Shop");
     await page.locator("app-card").filter({hasText: 'Nokia Edge'}).getByRole("button").click();
  
     //locator(css)
