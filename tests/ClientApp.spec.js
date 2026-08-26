@@ -1,6 +1,9 @@
 const { test, expect } = require('@playwright/test');
 const { LoginPage } = require('../pageObjects/LoginPage');
 
+const dataset = JSON.parse(JSON.stringify(require("../utils/placeorderTestData.json")));
+const { customTest } = require('../utils/test-base');
+
 // test.describe.configure({mode:'parallel'})
 // test.describe.configure({mode:'serial'})
 test('Client App test', async ({ page }) => {
