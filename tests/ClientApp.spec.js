@@ -5,7 +5,9 @@ const { DashboardPage } = require('../pageObjects/DashboardPage');
 const { customTest } = require('../utils/test-base');
 const dataset = JSON.parse(JSON.stringify(require("../utils/placeorderTestData.json")));
 
-test('Client App test with submit order and extract order ID', async ({ page }) => {
+// test.describe.configure({mode:'parallel'})
+// test.describe.configure({mode:'serial'})
+test('Client App test', async ({ page }) => {
    const productsNames = "ZARA COAT 3";
    const email = "fijope2288@amupx.com";
    const products = page.locator(".card-body");
@@ -75,7 +77,7 @@ test('Client App test with submit order and extract order ID', async ({ page }) 
 });
 
 for (const data of dataset) {
-   test(`Client App test with submit order and extract order ID using Page Object ${data.productsNames}`, async ({ page }) => {
+   test(`Client App test with submit order multiple and extract order ID using Page Object ${data.productsNames}`, async ({ page }) => {
       const poManager = new POManager(page);
 
       const loginPage = poManager.getLoginPage();
@@ -100,7 +102,7 @@ for (const data of dataset) {
 
    });
 }
-customTest.only('Client App Login with Order ID Custom Fixtures', async ({ page,testDataForOrder }) => {
+customTest('Client App Login with Order ID Custom Fixtures', async ({ page,testDataForOrder }) => {
    const poManager = new POManager(page);
 
    const loginPage = poManager.getLoginPage();

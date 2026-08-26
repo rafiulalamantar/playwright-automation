@@ -9,3 +9,5 @@ node_modules/
 .env
 utils/placeorderTestData.json
 utils/test-base.js
+allure-report/
+allure-results/
