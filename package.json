@@ -3,13 +3,17 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "regression": "npx playwright test",
+    "Smoke": "npx playwright test --grep @Web"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@playwright/test": "^1.62.0",
+    "@playwright/test": "^1.62.1",
     "@types/node": "^26.1.2",
+    "allure-playwright": "^3.11.0",
     "dotenv": "^17.4.2"
   }
 }

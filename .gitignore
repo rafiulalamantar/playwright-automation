@@ -7,3 +7,7 @@ node_modules/
 /playwright/.cache/
 /playwright/.auth/
 .env
+utils/placeorderTestData.json
+utils/test-base.js
+allure-report/
+allure-results/
